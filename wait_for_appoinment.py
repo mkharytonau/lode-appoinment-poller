@@ -25,7 +25,7 @@ def poll_url():
 				print("Data found:", data)
 				play_sound()
 			else:
-				print("No data found. Retrying...")
+				print(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - No data found. Retrying...")
 		except requests.RequestException as e:
 			print(f"Error while polling URL: {e}")
 			play_error_sound()
