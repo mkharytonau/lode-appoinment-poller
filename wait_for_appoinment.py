@@ -17,15 +17,16 @@ def poll_url():
 	"""Polls the URL and checks if the returned data is not an empty JSON array."""
 	while True:
 		try:
-			response = requests.get(URL)
+			response = requests.get(URL, timeout=10)
 			response.raise_for_status()
 			data = response.json()
+			dataFiltered = [item for item in data if item.get('date') > '2025-04-07']
 			
-			if data != []:
-				print("Data found:", data)
+			if dataFiltered != []:
+				print("Data found:", dataFiltered)
 				play_sound()
 			else:
-				print(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - No data found. Retrying...")
+				print(f"{time.strftime('%Y-%m-%d %H:%M:%S')} - No appropriate data found: {data}. Retrying...")
 		except requests.RequestException as e:
 			print(f"Error while polling URL: {e}")
 			play_error_sound()
